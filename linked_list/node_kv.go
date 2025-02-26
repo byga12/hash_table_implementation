@@ -1,7 +1,7 @@
 package linked_list
 
-type NodeKV[T string|int] struct{
-	next *NodeKV[T]
-	key T
-	value T
+type NodeKV[K string|int, V string|int] struct{
+	Next *NodeKV[K,V]
+	Key K
+	Value V
 }
