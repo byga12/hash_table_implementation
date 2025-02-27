@@ -8,6 +8,18 @@ import (
 
 func main(){
 	// ll := Ll.NewLinkedList[string,string]()
+	// ll.Append("nombre", "Ana García")
+	// ll.Append("edad", "28")
+	// ll.Append("es_estudiante", "NO")
+	// ll.Append("promedio", "9.2")
+	// ll.Append("direccion", "Calle false 123")
+	// ll.Append("temperatura", "25.5C")
+	// ll.Append("codigo_postal", "54321")
+	// ll.Append("mascota", "golden retriever")
+	// ll.Append("cantidad_usuarios", "500")
+	// ll.DeleteByKey("mascota")
+	// ll.DeleteByKey("nombre")
+	// ll.DeleteByKey("es_estudiante")
 	// fmt.Println(ll.Dump())
 
 	ht := Ht.NewHashTable[string,string]()

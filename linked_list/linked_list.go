@@ -40,7 +40,7 @@ func (ll *LinkedList[K, V]) Dump()string{
 		aux = aux.Next
 		ret += fmt.Sprintf("{%v:%v} -> ", aux.Key,aux.Value)
 	}
-	ret += fmt.Sprintf("]\n")
+	ret += fmt.Sprintf("]")
 	return ret
 }
 
@@ -138,5 +138,27 @@ func (ll *LinkedList[K, V]) SetValueByKey(key K, value V){
 		if(aux.Key == key){
 			aux.Value=value
 		}
+	}
+}
+
+func (ll *LinkedList[K, V]) DeleteByKey(key K){
+	if ll.IsEmpty() {
+		return
+	}
+	if ll.Root.Key == key{
+		ll.RemoveFirst()
+		return
+	}
+
+	preaux := ll.Root
+	for aux := preaux.Next ;aux!=nil;{
+		if(aux.Key == key){
+			preaux.Next = aux.Next
+			aux.Next = nil
+			ll.Length--
+			return
+		}
+		preaux = aux
+		aux = aux.Next
 	}
 }

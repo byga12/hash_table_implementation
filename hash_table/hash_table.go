@@ -64,6 +64,10 @@ func (ht *HashTable[K, V]) Set(key K, value V){
 	}
 }
 
+func (ht *HashTable[K, V]) Delete(key K){
+	
+}
+
 func hash_function(key any, htSize int) int{
 	switch k := key.(type) {
 		case string:
