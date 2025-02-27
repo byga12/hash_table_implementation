@@ -18,9 +18,19 @@ func NewLinkedList[K string|int, V string|int]() LinkedList[K,V]{
 
 // Methods
 
+// Private
+func (ll *LinkedList[K, V]) isEmpty()bool{
+	if(ll.Root==nil){
+		return true
+	} else {
+		return false
+	}
+}
+
+// Public
 func (ll *LinkedList[K, V]) Dump(){
 	fmt.Printf("Linked list size: %d\n",ll.Length)
-	if(ll.Length == 0){
+	if(ll.isEmpty()){
 		return
 	}
 	fmt.Printf("%v -> ",ll.Root.Key)
@@ -35,7 +45,7 @@ func (ll *LinkedList[K, V]) Dump(){
 func (ll *LinkedList[K,V]) Append(key K, value V){
 	node := &NodeKV[K,V]{nil,key,value}
 
-	if ll.Root == nil {
+	if ll.isEmpty() {
 		ll.Root = node
 		ll.Length ++
 		return
@@ -52,7 +62,7 @@ func (ll *LinkedList[K,V]) Append(key K, value V){
 
 func (ll *LinkedList[K, V]) Prepend(key K, value V){
 	node := &NodeKV[K,V]{nil,key,value}
-	if ll.Root == nil {
+	if ll.isEmpty() {
 		ll.Root = node
 		ll.Length ++
 		return
@@ -63,7 +73,7 @@ func (ll *LinkedList[K, V]) Prepend(key K, value V){
 }
 
 func (ll *LinkedList[K, V]) RemoveFirst(){
-	if ll.Root == nil {
+	if ll.isEmpty() {
 		return
 	}
 	if ll.Root.Next == nil {
@@ -76,10 +86,10 @@ func (ll *LinkedList[K, V]) RemoveFirst(){
 }
 
 func (ll *LinkedList[K, V]) RemoveLast(){
-	var aux *NodeKV[K,V] = ll.Root
-	if aux == nil {
+	if ll.isEmpty() {
 		return
 	}
+	var aux *NodeKV[K,V] = ll.Root
 	if aux.Next == nil {
 		ll.Length--
 		ll.Root = nil
@@ -95,11 +105,11 @@ func (ll *LinkedList[K, V]) RemoveLast(){
 }
 
 func (ll *LinkedList[K, V]) GetValueByKey(key K) V{
-	var aux *NodeKV[K,V] = ll.Root
 	var nil_value V
-	if aux == nil {
+	if ll.isEmpty() {
 		return nil_value
 	}
+	var aux *NodeKV[K,V] = ll.Root
 	for aux.Next!=nil{
 		if(aux.Key == key){
 			return aux.Value
