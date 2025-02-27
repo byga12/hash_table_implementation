@@ -30,6 +30,12 @@ func (ht *HashTable[K, V]) Dump()string{
 	return ret
 }
 
+func (ht *HashTable[K, V]) Get(key K) (V,bool){
+	var index int = hash_function(key, len(ht.table))
+	bucket := &ht.table[index]
+	return bucket.GetValueByKey(key)
+}
+
 func (ht *HashTable[K, V]) Set(key K, value V){
 	var index int = hash_function(key, len(ht.table))
 
@@ -64,8 +70,11 @@ func (ht *HashTable[K, V]) Set(key K, value V){
 	}
 }
 
-func (ht *HashTable[K, V]) Delete(key K){
-	
+// Borra el nodo del bucket que la contenga, si no encuentra nada, devuelve false
+func (ht *HashTable[K, V]) Delete(key K) bool{
+	var index int = hash_function(key, len(ht.table))
+	bucket := &ht.table[index]
+	return bucket.DeleteByKey(key)
 }
 
 func hash_function(key any, htSize int) int{

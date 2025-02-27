@@ -141,13 +141,14 @@ func (ll *LinkedList[K, V]) SetValueByKey(key K, value V){
 	}
 }
 
-func (ll *LinkedList[K, V]) DeleteByKey(key K){
+// Devuelve false si no existe
+func (ll *LinkedList[K, V]) DeleteByKey(key K) bool{
 	if ll.IsEmpty() {
-		return
+		return false
 	}
 	if ll.Root.Key == key{
 		ll.RemoveFirst()
-		return
+		return true
 	}
 
 	preaux := ll.Root
@@ -156,9 +157,10 @@ func (ll *LinkedList[K, V]) DeleteByKey(key K){
 			preaux.Next = aux.Next
 			aux.Next = nil
 			ll.Length--
-			return
+			return true
 		}
 		preaux = aux
 		aux = aux.Next
 	}
+	return false
 }

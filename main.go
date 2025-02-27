@@ -32,5 +32,10 @@ func main(){
 	ht.Set("codigo_postal", "54321")
 	ht.Set("mascota", "golden retriever")
 	ht.Set("cantidad_usuarios", "500")
+	ht.Delete("cantidad_usuarios")
+	ht.Delete("mascota")
+	ht.Delete("edad")
+	value,exists := ht.Get("temperatura")
+	fmt.Println(value,exists)
 	fmt.Println(ht.Dump())
 }
