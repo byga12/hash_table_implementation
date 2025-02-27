@@ -41,7 +41,7 @@ func (ht *HashTable[K, V]) Set(key K, value V){
 		ht.resize_and_re_set()
 	}
 
-	
+
 	// Que hay en ese indice?
 	bucket := &ht.table[index]
 	// Si no hay nada
@@ -80,6 +80,7 @@ func (ht *HashTable[K,V]) resize_and_re_set(){
 	old_table := ht.table
 	new_table := make([]ll.LinkedList[K, V], new_size)
 	ht.table = new_table
+	ht.occupied_entries=0
 	// Recorrer la tabla actual
 	for _,ll:= range old_table {
 		// Recorrer cada lista
@@ -87,7 +88,7 @@ func (ht *HashTable[K,V]) resize_and_re_set(){
 			continue
 		}
 		for aux:=ll.Root;aux!=nil;aux=aux.Next{
-			ht.occupied_entries=0
+			
 			ht.Set(aux.Key,aux.Value)
 		}
 	}
