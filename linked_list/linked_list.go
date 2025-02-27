@@ -2,7 +2,6 @@ package linked_list
 
 import (
 	"fmt"
-
 )
 
 type LinkedList[K string|int, V string|int] struct {
@@ -19,7 +18,7 @@ func NewLinkedList[K string|int, V string|int]() LinkedList[K,V]{
 // Methods
 
 // Private
-func (ll *LinkedList[K, V]) isEmpty()bool{
+func (ll *LinkedList[K, V]) IsEmpty()bool{
 	if(ll.Root==nil){
 		return true
 	} else {
@@ -28,24 +27,27 @@ func (ll *LinkedList[K, V]) isEmpty()bool{
 }
 
 // Public
-func (ll *LinkedList[K, V]) Dump(){
-	fmt.Printf("Linked list size: %d\n",ll.Length)
-	if(ll.isEmpty()){
-		return
+func (ll *LinkedList[K, V]) Dump()string{
+	ret := fmt.Sprintf("Linked list size: %d [ ",ll.Length)
+	
+	if(ll.IsEmpty()){
+		ret += "]"
+		return ret
 	}
-	fmt.Printf("%v -> ",ll.Root.Key)
+	ret += fmt.Sprintf("{%v:%v} -> ",ll.Root.Key, ll.Root.Value)
 	var aux *NodeKV[K,V] = ll.Root
 	for aux.Next!=nil{
 		aux = aux.Next
-		fmt.Printf("%v -> ", aux.Key)
+		ret += fmt.Sprintf("{%v:%v} -> ", aux.Key,aux.Value)
 	}
-	fmt.Printf("\n")
+	ret += fmt.Sprintf("]\n")
+	return ret
 }
 
 func (ll *LinkedList[K,V]) Append(key K, value V){
 	node := &NodeKV[K,V]{nil,key,value}
 
-	if ll.isEmpty() {
+	if ll.IsEmpty() {
 		ll.Root = node
 		ll.Length ++
 		return
@@ -62,7 +64,7 @@ func (ll *LinkedList[K,V]) Append(key K, value V){
 
 func (ll *LinkedList[K, V]) Prepend(key K, value V){
 	node := &NodeKV[K,V]{nil,key,value}
-	if ll.isEmpty() {
+	if ll.IsEmpty() {
 		ll.Root = node
 		ll.Length ++
 		return
@@ -73,7 +75,7 @@ func (ll *LinkedList[K, V]) Prepend(key K, value V){
 }
 
 func (ll *LinkedList[K, V]) RemoveFirst(){
-	if ll.isEmpty() {
+	if ll.IsEmpty() {
 		return
 	}
 	if ll.Root.Next == nil {
@@ -86,7 +88,7 @@ func (ll *LinkedList[K, V]) RemoveFirst(){
 }
 
 func (ll *LinkedList[K, V]) RemoveLast(){
-	if ll.isEmpty() {
+	if ll.IsEmpty() {
 		return
 	}
 	var aux *NodeKV[K,V] = ll.Root
@@ -104,17 +106,37 @@ func (ll *LinkedList[K, V]) RemoveLast(){
 	ll.Length--
 }
 
-func (ll *LinkedList[K, V]) GetValueByKey(key K) V{
+// Si no encuentra la key, devuelve el nil_value de tipo V y un false
+func (ll *LinkedList[K, V]) GetValueByKey(key K) (V, bool){
 	var nil_value V
-	if ll.isEmpty() {
-		return nil_value
+	if ll.IsEmpty() {
+		return nil_value, false
 	}
-	var aux *NodeKV[K,V] = ll.Root
-	for aux.Next!=nil{
+	// var aux *NodeKV[K,V] = ll.Root
+	// if(aux.Key == key){
+	// 	return aux.Value, true
+	// }
+	// for aux.Next!=nil{
+	// 	aux=aux.Next
+	// 	if(aux.Key == key){
+	// 		return aux.Value, true
+	// 	}
+	// }
+	for aux:=ll.Root;aux!=nil;aux=aux.Next{
 		if(aux.Key == key){
-			return aux.Value
+			return aux.Value, true
 		}
-		aux=aux.Next
 	}
-	return nil_value
+	return nil_value, false
+}
+
+func (ll *LinkedList[K, V]) SetValueByKey(key K, value V){
+	if ll.IsEmpty() {
+		return
+	}
+	for aux:=ll.Root;aux!=nil;aux=aux.Next{
+		if(aux.Key == key){
+			aux.Value=value
+		}
+	}
 }
